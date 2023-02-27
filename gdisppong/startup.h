@@ -23,14 +23,14 @@ startup(void);
 #define GPIO_E_ODR_HIGH ((volatile unsigned char *) (GPIO_E+0x14+1)) 
 
 #define GPIO_D 0x40020C00
-#define GPIO_D_Moder ((volatile unsigned int*) (GPIO_D))
-#define GPIO_D_Otyper ((volatile unsigned short *) (GPIO_D+0x4))
-#define GPIO_D_Ospeedr ((volatile unsigned int *) (GPIO_D+0x8))
-#define GPIO_D_Pupdr ((volatile unsigned int *) (GPIO_D+0xC))
-#define GPIO_D_IdrLow ((volatile unsigned short *) (GPIO_D+0x10))
-#define GPIO_D_IdrHigh ((volatile unsigned char *) (GPIO_D+0x11))
-#define GPIO_D_OdrLow ((volatile unsigned char *) (GPIO_D+0x14))
-#define GPIO_D_OdrHigh ((volatile unsigned char *) (GPIO_D+0x14+1))
+#define GPIO_D_MODER ((volatile unsigned int*) (GPIO_D))
+#define GPIO_D_OTYPER ((volatile unsigned short *) (GPIO_D+0x4))
+#define GPIO_D_OSPEEDR ((volatile unsigned int *) (GPIO_D+0x8))
+#define GPIO_D_PUPDR ((volatile unsigned int *) (GPIO_D+0xC))
+#define GPIO_D_IDR_LOW ((volatile unsigned short *) (GPIO_D+0x10))
+#define GPIO_D_IDR_HIGH ((volatile unsigned char *) (GPIO_D+0x11))
+#define GPIO_D_ODR_LOW ((volatile unsigned char *) (GPIO_D+0x14))
+#define GPIO_D_ODR_HIGH ((volatile unsigned char *) (GPIO_D+0x14+1))
 
 #define SYSCFG_EXTICR1 ((volatile unsigned int*) (0x40013808))
  
