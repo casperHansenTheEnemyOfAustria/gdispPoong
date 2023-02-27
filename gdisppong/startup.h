@@ -11,6 +11,10 @@ startup(void);
 __attribute__((naked)) __attribute__((section(".start_section"))) void
 startup(void);
 
+#define STK_CTRL ((volatile unsigned int *)(0xE000E010))  
+#define STK_LOAD ((volatile unsigned int *)(0xE000E014))  
+#define STK_VAL ((volatile unsigned int *)(0xE000E018))  
+
 
 #define GPIO_E 0x40021000
 #define GPIO_E_MODER ((volatile unsigned int*) (GPIO_E))
@@ -54,6 +58,38 @@ startup(void);
 #define EXTI2_IRQVEC ((void(**)(void))0x2001C060)
 #define EXTI1_IRQVEC ((void(**)(void))0x2001C05C)
 #define EXTI0_IRQVEC ((void(**)(void))0x2001C058)
+
+
+#define TIM6 (*((TIM *)0x40001000))
+#define TIM7 (*((TIM *)0x40001400))
+#define UDIS (1<<1)
+#define CEN (1<<0)
+#define UIF (1<<0)
+#define UIE (1<<0)
+#define TIMER6_IRQ (1<<22)
+#define TIM6_IRQVEC ((void (**)(void))0x2001C118)
+#define NVIC_TIM6_ISER ((volatile unsigned int *)0xE000E104)
+#define NVIC_TIM6_ICER ((volatile unsigned int *)0xE000E184)
+
+
+typedef unsigned int uint32_t;
+typedef unsigned short uint16_t;
+typedef unsigned char uint8_t;
+typedef volatile struct tag_tim{
+    uint32_t CR1;
+    uint32_t CR2;
+    uint32_t Empty1;
+    uint32_t DIER;
+    uint32_t SR;
+    uint32_t EGR;
+    uint32_t Empty2;
+    uint32_t Empty3;
+    uint32_t Empty4;
+    uint32_t CNT;
+    uint32_t PSC;
+    uint32_t ARR;
+}TIM;
+
 
 
 __attribute__((naked)) void graphic_initialize();

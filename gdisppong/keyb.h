@@ -2,4 +2,4 @@
 #include "startup.h"
 
 void initKeyb();
-unsigned char returnPressedKey();
+unsigned char return_pressed_key();

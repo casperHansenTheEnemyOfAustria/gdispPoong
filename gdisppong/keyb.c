@@ -11,19 +11,19 @@
 void activateRow(int row){
 
     switch (row) {
-        case 1: *GPIO_E_ODR_HIGH= 0x10; break;
-        case 2: *GPIO_E_ODR_HIGH = 0x20; break;
-        case 3: *GPIO_E_ODR_HIGH= 0x40; break;
-        case 4: *GPIO_E_ODR_HIGH = 0x80; break;
-        default: *GPIO_E_ODR_HIGH = 0; break;
+        case 1: *GPIO_D_ODR_HIGH= 0x10; break;
+        case 2: *GPIO_D_ODR_HIGH = 0x20; break;
+        case 3: *GPIO_D_ODR_HIGH= 0x40; break;
+        case 4: *GPIO_D_ODR_HIGH = 0x80; break;
+        default: *GPIO_D_ODR_HIGH = 0; break;
 
  }
 }
 
 int  readColumn(void){
 
-	*GPIO_E_MODER = 0x55005555;
-    char c =  *GPIO_E_IDR_HIGH;
+	*GPIO_D_MODER = 0x55005555;
+    char c =  *GPIO_D_IDR_HIGH;
     if(c & 8){
         return 4;
     }
@@ -42,22 +42,22 @@ int  readColumn(void){
 void initKeyb(void){
         //init init pupd 
        
-        *GPIO_E_PUPDR = 0x00AA0000;
+        *GPIO_D_PUPDR = 0x00AA0000;
         // sets otr
        
-        *GPIO_E_OTYPER = 0x0;
+        *GPIO_D_OTYPER = 0x0;
         
-        *GPIO_E_OSPEEDR = 0xffffffff;
+        *GPIO_D_OSPEEDR = 0xffffffff;
 
             //starts clocks for debug board
     *((unsigned long *) 0x40023830) = 0x18;
     
-	*GPIO_E_MODER = 0x55005555;
+	*GPIO_D_MODER = 0x55005555;
 }
-unsigned char returnPressedKey(void)
+unsigned char return_pressed_key(void)
 {
 
-    int temp = *GPIO_E_MODER;
+    int temp = *GPIO_D_MODER;
 
     initKeyb();
     char key[] = 
@@ -72,7 +72,7 @@ unsigned char returnPressedKey(void)
         }
     }
 
-    *GPIO_E_MODER = temp;
+    *GPIO_D_MODER = temp;
     return  0xFF; 
 }
 
@@ -99,10 +99,10 @@ void out7seg( unsigned char c){
     0x7E, 
     0x21};
  if(c < 15){
-    *GPIO_E_ODR_LOW = outputTable[c];
+    *GPIO_D_ODR_LOW = outputTable[c];
  }
  else{ 
-    *GPIO_E_ODR_LOW = 0;
+    *GPIO_D_ODR_LOW = 0;
  }
 }
 

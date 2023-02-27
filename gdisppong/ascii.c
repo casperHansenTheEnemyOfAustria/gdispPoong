@@ -4,15 +4,15 @@
 
 void ascii_ctrl_bit_set(char x){
         char c;
-        c = *GPIO_ODR_LOW;
-        *GPIO_ODR_LOW = B_SELECT | x | c;
+        c = *GPIO_E_ODR_LOW;
+        *GPIO_E_ODR_LOW = B_SELECT | x | c;
 }
 
 void ascii_ctrl_bit_clear(char x){
 	char c;
-	c = *GPIO_ODR_LOW;
+	c = *GPIO_E_ODR_LOW;
 	c = c & ~x;
-	*GPIO_ODR_LOW = B_SELECT | c;
+	*GPIO_E_ODR_LOW = B_SELECT | c;
 }
 
 
@@ -25,14 +25,14 @@ char  ascii_read_controller(){
         delay_250ns();
 
 
-        c = *GPIO_IDR_HIGH;
+        c = *GPIO_E_IDR_HIGH;
 
         ascii_ctrl_bit_clear(B_E);
         
         return c;
     }
 char  ascii_read_status(){
-	*GPIO_MODER = 0x00005555;
+	*GPIO_E_MODER = 0x00005555;
         char c;
 
         // vilket kommando vil vi göra
@@ -40,24 +40,24 @@ char  ascii_read_status(){
         ascii_ctrl_bit_clear(B_RS);
         // kicka ingång det hela
         c = ascii_read_controller();
-		*GPIO_MODER = 0x55555555;
+		*GPIO_E_MODER = 0x55555555;
         return c;
     }
 
 char ascii_read_data(){
 	char c;
-	*GPIO_MODER = *GPIO_MODER & 0x00005555;
+	*GPIO_E_MODER = *GPIO_E_MODER & 0x00005555;
 	ascii_ctrl_bit_set(B_RW);
     ascii_ctrl_bit_set(B_RS);
 	c = ascii_read_controller();
-	*GPIO_MODER = *GPIO_MODER & 0x55555555;
+	*GPIO_E_MODER = *GPIO_E_MODER & 0x55555555;
 	return c;
 
 }
     void ascii_write_controller(char command){
         char c;
         ascii_ctrl_bit_set(B_E);
-        *GPIO_ODR_HIGH = command;
+        *GPIO_E_ODR_HIGH = command;
         delay_250ns();
         ascii_ctrl_bit_clear(B_E);
         delay_250ns();
@@ -113,18 +113,19 @@ void ascii_gotoxy(int x, int y ){
 
 }
 
-void ascii_write_test_at(char* string, int x, int y){
-	int moder_save = *GPIO_MODER;
-	int otyper_save = *GPIO_OTYPER;
-	int ospeedr_save = *GPIO_OSPEEDR;
-	*GPIO_MODER = 0x55555555;
-	*GPIO_OTYPER = 0x0;
-    *GPIO_OSPEEDR = 0xffffffff;
+void ascii_write_text_at(char* string, int x, int y){
+	ascii_init();
+	int moder_save = *GPIO_E_MODER;
+	int otyper_save = *GPIO_E_OTYPER;
+	int ospeedr_save = *GPIO_E_OSPEEDR;
+	*GPIO_E_MODER = 0x55555555;
+	*GPIO_E_OTYPER = 0x0;
+    *GPIO_E_OSPEEDR = 0xffffffff;
 	ascii_gotoxy(x,y);
 	while(*string){
 		ascii_write_char(*string++);
 	}
-	*GPIO_MODER = moder_save;
-	*GPIO_OTYPER = otyper_save;
-	*GPIO_OSPEEDR = ospeedr_save;
+	*GPIO_E_MODER = moder_save;
+	*GPIO_E_OTYPER = otyper_save;
+	*GPIO_E_OSPEEDR = ospeedr_save;
 }
