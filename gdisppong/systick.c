@@ -45,7 +45,7 @@ void timer6_interrupt_handler(){
 		ticks = 0;
 		seconds++;
 		char * string_seconds = &seconds;
-		ascii_write_text_at(string_seconds,1,2  );
+		ascii_write_text_at(seconds,1,2  );
 	}
 	if(seconds > count){
 		timer_flag = 1;

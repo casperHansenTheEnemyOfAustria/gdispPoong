@@ -18,4 +18,4 @@ void ascii_write_char(char command);void ascii_init();
 void ascii_gotoxy(int x, int y);
 void ascii_init();
 void ascii_clear_screen();
-void ascii_write_text_at(char* string, int x, int y);
+void ascii_write_text_at(char num, int x, int y);

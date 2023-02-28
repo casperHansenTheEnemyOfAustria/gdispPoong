@@ -91,6 +91,7 @@ char plot_polygon(POLYPOINT polygon1){
         ptr = ptr->next;
 
     }
+    return 1;
 
 
 }

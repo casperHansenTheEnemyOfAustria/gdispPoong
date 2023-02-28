@@ -36,8 +36,9 @@ char  ascii_read_status(){
         char c;
 
         // vilket kommando vil vi göra
-        ascii_ctrl_bit_set(B_RW);
+      
         ascii_ctrl_bit_clear(B_RS);
+		  ascii_ctrl_bit_set(B_RW);
         // kicka ingång det hela
         c = ascii_read_controller();
 		*GPIO_E_MODER = 0x55555555;
@@ -70,8 +71,9 @@ void ascii_write_cmd(char command){
 	ascii_write_controller(command);
 }
 void ascii_write_data(char command){
+		ascii_ctrl_bit_set(B_RS);
 	ascii_ctrl_bit_clear(B_RW);
-	ascii_ctrl_bit_set(B_RS);
+
 	ascii_write_controller(command);
 }
 
@@ -113,8 +115,8 @@ void ascii_gotoxy(int x, int y ){
 
 }
 
-void ascii_write_text_at(char* string, int x, int y){
-	ascii_init();
+void ascii_write_text_at(char num, int x, int y){
+	
 	int moder_save = *GPIO_E_MODER;
 	int otyper_save = *GPIO_E_OTYPER;
 	int ospeedr_save = *GPIO_E_OSPEEDR;
@@ -122,9 +124,8 @@ void ascii_write_text_at(char* string, int x, int y){
 	*GPIO_E_OTYPER = 0x0;
     *GPIO_E_OSPEEDR = 0xffffffff;
 	ascii_gotoxy(x,y);
-	while(*string){
-		ascii_write_char(*string++);
-	}
+	ascii_write_char(num);
+
 	*GPIO_E_MODER = moder_save;
 	*GPIO_E_OTYPER = otyper_save;
 	*GPIO_E_OSPEEDR = ospeedr_save;
