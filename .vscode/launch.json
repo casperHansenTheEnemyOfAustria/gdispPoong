@@ -13,7 +13,7 @@
 				"gdbpath": "c:\\Users\\casha\\.vscode\\extensions\\skyletoft.md407-code-1.0.2/native_dependencies/bin/arm-none-eabi-gdb.exe"
 			},
 			"osx": {
-				"gdbpath": "c:\\Users\\casha\\.vscode\\extensions\\skyletoft.md407-code-1.0.2/native_dependencies/bin/arm-none-eabi-gdb"
+				"gdbpath": "c:\Users\casha\.vscode\extensions\skyletoft.md407-code-1.0.2/native_dependencies/bin/arm-none-eabi-gdb"
 			},
 			"name": "gdisppong - SimServer",
 			"type": "gdb",
