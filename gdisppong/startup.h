@@ -50,9 +50,9 @@ startup(void);
 #define EXTI1_IRQ_BPOS (1<<1)
 #define EXTI2_IRQ_BPOS (1<<2)
 
-#define TIM6_IRQVEC ((void (**)(void)) 0x2001C118 )
+// #define TIM6_IRQVEC ((void (**)(void)) 0x2001C118 )
 #define NVIC_TIM6_IRQ_BPOS (1<<22);
-#define NVIC_TIM6_ISER ((volatile unsigned int *) 0xE000E104)
+// #define NVIC_TIM6_ISER ((volatile unsigned int *) 0xE000E104)
 
 #define NVIC 0xE000E100
 #define NVIC_ISER0 ((volatile unsigned int*)(NVIC))

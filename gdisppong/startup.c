@@ -35,3 +35,14 @@ __attribute__((naked)) void graphic_pixel_clear(int x, int y){
 	__asm__ volatile(".HWORD  0xDFF3\n");
 	__asm__ volatile("BX LR\n");
 }
+
+
+__attribute__((naked )) void enable_interrupt(){
+	__asm__ volatile(" CPSIE I\n");
+	__asm__ volatile(" BX LR\n");
+}
+
+__attribute__((naked )) void disable_interrupt(){
+	__asm__ volatile(" CPSID I\n");
+	__asm__ volatile(" BX LR\n");
+}

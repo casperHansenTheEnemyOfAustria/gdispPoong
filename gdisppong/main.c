@@ -9,8 +9,7 @@
 // #include "systick.h"
 #include "math.h"'
 #include "main.h"
-
-
+int main();
 
 
 void timer6_interrupt(){
@@ -49,6 +48,7 @@ char collision(POBJECT object1, POBJECT object2){
 }
 
 void winning_routine(){
+
 	char *s = "The epic winner is: ";
 	ascii_clear_screen();
 	graphic_clear_screen();
@@ -62,6 +62,22 @@ void winning_routine(){
 		ascii_write_char(*winner_name);
 		winner_name++;
 	}
+	tim6_disable();
+	delay_mili(500);
+
+	ascii_clear_screen();
+	// graphic_clear_screen();
+	ascii_gotoxy(1,1);
+	s = "Press any key to restart";
+	while(*s != 0){
+		ascii_write_char(*s);
+		s++;
+	}
+	while(return_pressed_key() == 0xff);
+	time.seconds = 0;
+	time.ten_seconds = 0;
+	time.minutes = 0;
+	main();
 }
 
 void print_scores(){
@@ -169,13 +185,15 @@ void singleGame(POBJECT paddle1, POBJECT paddle2){
 
 
 //main for singlepong
-void main(void) {
+int main(void) {
 
 	app_init();
+	// benis:
 	unsigned char c = 0xff;
 	POBJECT ball = create_ballobject(1,1);
 	ball.set_speed(&ball, 4,1);
 	POBJECT paddle1 = create_paddleobject(100, 32);
 	POBJECT paddle2 = create_paddleobject(28, 32);
 	singleGame(paddle1, paddle2);	
+	return 1;
 }

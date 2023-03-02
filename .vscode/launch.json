@@ -28,7 +28,7 @@
 				"target extended-remote :1234",
 				"load",
 				"monitor restart",
-				"b main"
+				// "b main"
 			],
 			"preLaunchTask": "build gdisppong"
 		}

@@ -26,6 +26,14 @@ int get_current_time(){
 	return time.seconds+ time.ten_seconds*10 + time.minutes*60;
 }
 
+void tim6_disable(){
+	*TIM6_CR1 &= ~CEN;
+}
+
+void tim6_enable(){
+	*TIM6_CR1 |= CEN;
+}
+
 void gpio_init(){
 	*SCB_VTOR = 0x2001c000;
 	*GPIO_E_MODER = 0x55555555;
