@@ -4,9 +4,34 @@
 #include "startup.h"
 #include "delay.h"
 #include "keyb.h"
+#include "clock.h"
 #include "ascii.h"
 // #include "systick.h"
-#include "math.h"
+#include "math.h"'
+#include "main.h"
+
+
+
+
+void timer6_interrupt(){
+	*TIM6_SR &= ~UIF;
+	time.seconds++;
+	if (time.seconds > 9){
+		time.ten_seconds++;
+		time.seconds = 0;
+	}
+	if (time.ten_seconds > 5){
+		time.minutes++;
+	}
+	ascii_clear_screen();
+	
+	print_scores();
+	ascii_gotoxy(10,1);
+	ascii_write_char(48 + time.minutes);
+	ascii_write_char(58);
+	ascii_write_char(48 + time.ten_seconds);
+	ascii_write_char(48 + time.seconds);
+}
 
 char points_player1 = 0;
 char points_player2 = 0;
@@ -50,7 +75,7 @@ void print_scores(){
 	}
 	ascii_write_char(points_player1+0x30);
 
-	ascii_gotoxy(8,1);
+	ascii_gotoxy(1,2);
 	while(*string_points_player2 != 0){
 		ascii_write_char(*string_points_player2);
 		string_points_player2++;
@@ -77,6 +102,7 @@ void singleGame(POBJECT paddle1, POBJECT paddle2){
 	// POBJECT paddle1 = create_paddleobject(100, 32);
 	// POBJECT paddle2 = create_paddleobject(28, 32);
 	print_scores();
+	timer6_init();
 	while(1){
 		paddle1.move(&paddle1);
 		paddle2.move(&paddle2);
@@ -110,15 +136,26 @@ void singleGame(POBJECT paddle1, POBJECT paddle2){
 			print_scores();
 			singleGame(paddle1 ,paddle2);
 		}
-		if(points_player1 == winning_score){
-			winner_name = "Player 1";
-			winning_routine();
-			break;
-		}else if(points_player2 == winning_score){
-			winner_name = "Player 2";
-			winning_routine();
-			break;
+		if(time.seconds+time.ten_seconds*10 >= 10){
+			if(points_player1 > points_player2){
+				winner_name = "Player 1";
+				winning_routine();
+				break;
+			}else if(points_player2 > points_player1){
+				winner_name = "Player 2";
+				winning_routine();
+				break;
+			}
 		}
+		// if(points_player1 == winning_score){
+		// 	winner_name = "Player 1";
+		// 	winning_routine();
+		// 	break;
+		// }else if(points_player2 == winning_score){
+		// 	winner_name = "Player 2";
+		// 	winning_routine();
+		// 	break;
+		// }
 		// else if(get_timer_flag() == 1){
 		// 	break;
 		// }

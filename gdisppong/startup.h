@@ -37,6 +37,8 @@ startup(void);
 #define GPIO_D_ODR_HIGH ((volatile unsigned char *) (GPIO_D+0x14+1))
 
 #define SYSCFG_EXTICR1 ((volatile unsigned int*) (0x40013808))
+#define SCB 0xE000ED00
+#define SCB_VTOR ((volatile unsigned long *)SCB + 0x8)
  
 #define EXTI 0x40013C00
 #define EXTI_IMR ((volatile unsigned int*)(EXTI)) 
@@ -48,6 +50,9 @@ startup(void);
 #define EXTI1_IRQ_BPOS (1<<1)
 #define EXTI2_IRQ_BPOS (1<<2)
 
+#define TIM6_IRQVEC ((void (**)(void)) 0x2001C118 )
+#define NVIC_TIM6_IRQ_BPOS (1<<22);
+#define NVIC_TIM6_ISER ((volatile unsigned int *) 0xE000E104)
 
 #define NVIC 0xE000E100
 #define NVIC_ISER0 ((volatile unsigned int*)(NVIC))
@@ -60,7 +65,7 @@ startup(void);
 #define EXTI0_IRQVEC ((void(**)(void))0x2001C058)
 
 
-#define TIM6 (*((TIM *)0x40001000))
+// #define TIM6 (*((TIM *)0x40001000))
 #define TIM7 (*((TIM *)0x40001400))
 #define UDIS (1<<1)
 #define CEN (1<<0)
@@ -89,6 +94,19 @@ typedef volatile struct tag_tim{
     uint32_t PSC;
     uint32_t ARR;
 }TIM;
+
+
+#define TIM6 0x40001000
+#define TIM6_CR1 ((volatile unsigned int *)(TIM6)) 
+#define TIM6_CR2 ((volatile unsigned int *)(TIM6 + 4))
+#define TIM6_DIER  ((volatile unsigned int *)(TIM6 + 0xC))
+#define TIM6_SR ((volatile unsigned int *)(TIM6 + 0x10))
+#define TIM6_EGR  ((volatile unsigned int *)(TIM6 + 0x14))
+#define TIM6_CNT ((volatile unsigned int *)(TIM6 + 0x24))
+#define TIM6_PSC ((volatile unsigned int *)(TIM6 + 0x28))
+#define TIM6_ARR ((volatile unsigned int *)(TIM6 + 0x2C))
+#define UIE (1<<0)
+#define UIF (1<<0)
 
 
 
